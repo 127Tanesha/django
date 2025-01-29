@@ -1,0 +1,243 @@
+import streamlit as st
+import math
+
+# Add custom CSS for scrollable containers
+st.markdown("""
+    <style>
+    .scrollable-container {
+        max-height: 400px;
+        overflow-y: scroll;
+        padding-right: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Main menu
+def main_menu():
+    st.title("Aerospace Calculators")
+    st.write("Select a calculator from the list below:")
+    
+    options = [
+        "Delta-V Calculator",
+        "Thrust-to-Weight Ratio",
+        "Specific Impulse Calculator",
+        "Orbital Velocity",
+        "Escape Velocity",
+        "Time of Flight",
+        "Fuel Efficiency",
+        "Kepler's Laws"
+    ]
+    
+    selection = st.selectbox("Choose a calculator", options)
+    
+    if selection == "Delta-V Calculator":
+        delta_v_calculator()
+    elif selection == "Thrust-to-Weight Ratio":
+        thrust_to_weight_calculator()
+    elif selection == "Specific Impulse Calculator":
+        specific_impulse_calculator()
+    elif selection == "Orbital Velocity":
+        orbital_velocity_calculator()
+    elif selection == "Escape Velocity":
+        escape_velocity_calculator()
+    elif selection == "Time of Flight":
+        time_of_flight_calculator()
+    elif selection == "Fuel Efficiency":
+        fuel_efficiency_calculator()
+    elif selection == "Kepler's Laws":
+        kepler_laws_calculator()
+
+# Delta-V Calculator
+def delta_v_calculator():
+    st.title("Delta-V Calculator")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+        
+        Isp = st.number_input("Specific Impulse (Isp) [s]", min_value=0.0)
+        m_initial = st.number_input("Initial Mass (kg)", min_value=0.0)
+        m_final = st.number_input("Final Mass (kg)", min_value=0.0)
+        
+        if st.button("Compute Delta-V"):
+            try:
+                g0 = 9.81
+                delta_v = Isp * g0 * math.log(m_initial / m_final)
+                st.write(f"Delta-V: {delta_v:.2f} m/s")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Thrust-to-Weight Ratio
+def thrust_to_weight_calculator():
+    st.title("Thrust-to-Weight Ratio")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        thrust = st.number_input("Thrust (N)", min_value=0.0)
+        weight = st.number_input("Weight (N)", min_value=0.0)
+        
+        if st.button("Compute Thrust-to-Weight Ratio"):
+            try:
+                ratio = thrust / weight
+                st.write(f"Thrust-to-Weight Ratio: {ratio:.2f}")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Specific Impulse Calculator
+def specific_impulse_calculator():
+    st.title("Specific Impulse Calculator")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        thrust = st.number_input("Thrust (N)", min_value=0.0)
+        flow_rate = st.number_input("Propellant Mass Flow Rate (kg/s)", min_value=0.0)
+        
+        if st.button("Compute Specific Impulse"):
+            try:
+                g0 = 9.81
+                Isp = thrust / (flow_rate * g0)
+                st.write(f"Specific Impulse: {Isp:.2f} seconds")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Orbital Velocity Calculator
+def orbital_velocity_calculator():
+    st.title("Orbital Velocity")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        radius = st.number_input("Orbital Radius (m)", min_value=0.0)
+        
+        if st.button("Compute Orbital Velocity"):
+            try:
+                mu = 398600  # Gravitational parameter for Earth
+                velocity = math.sqrt(mu / radius)
+                st.write(f"Orbital Velocity: {velocity:.2f} m/s")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+        
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Escape Velocity Calculator
+def escape_velocity_calculator():
+    st.title("Escape Velocity")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        radius = st.number_input("Radius (m)", min_value=0.0)
+        
+        if st.button("Compute Escape Velocity"):
+            try:
+                mu = 398600  # Gravitational parameter for Earth
+                velocity = math.sqrt(2 * mu / radius)
+                st.write(f"Escape Velocity: {velocity:.2f} m/s")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+        
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Time of Flight Calculator
+def time_of_flight_calculator():
+    st.title("Time of Flight")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        distance = st.number_input("Distance (m)", min_value=0.0)
+        velocity = st.number_input("Velocity (m/s)", min_value=0.0)
+        
+        if st.button("Compute Time of Flight"):
+            try:
+                time = distance / velocity
+                st.write(f"Time of Flight: {time:.2f} seconds")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+        
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Fuel Efficiency Calculator
+def fuel_efficiency_calculator():
+    st.title("Fuel Efficiency")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        Isp = st.number_input("Specific Impulse (Isp) [s]", min_value=0.0)
+        flow_rate = st.number_input("Mass Flow Rate (kg/s)", min_value=0.0)
+        
+        if st.button("Compute Fuel Efficiency"):
+            try:
+                g0 = 9.81
+                efficiency = Isp * flow_rate * g0
+                st.write(f"Fuel Efficiency: {efficiency:.2f} N·s")
+            except ValueError:
+                st.error("Please enter valid numeric values.")
+        
+        if st.button("Back to Menu"):
+            main_menu()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+# Kepler's Laws Calculator
+def kepler_laws_calculator():
+    st.title("Kepler's Laws")
+    with st.container():
+        st.markdown('<div class="scrollable-container">', unsafe_allow_html=True)
+
+        law_choice = st.radio("Choose Kepler's Law", ["Orbital Period", "Orbital Radius"])
+        
+        if law_choice == "Orbital Period":
+            compute_orbital_period()
+        elif law_choice == "Orbital Radius":
+            compute_orbital_radius()
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+def compute_orbital_period():
+    st.write("Orbital Period Calculation: Kepler's Third Law")
+    period = st.number_input("Orbital Period (s)", min_value=0.0)
+    if st.button("Compute Orbital Period"):
+        try:
+            mu = 398600  # Gravitational parameter for Earth
+            T = 2 * math.pi * math.sqrt(period**3 / mu)
+            st.write(f"Orbital Period: {T / 3600:.2f} hours")
+        except ValueError:
+            st.error("Please enter valid numeric values.")
+    if st.button("Back to Menu"):
+        main_menu()
+
+def compute_orbital_radius():
+    st.write("Orbital Radius Calculation: Kepler's Third Law")
+    radius = st.number_input("Orbital Radius (m)", min_value=0.0)
+    if st.button("Compute Orbital Radius"):
+        try:
+            mu = 398600  # Gravitational parameter for Earth
+            radius = (mu * period**2 / (4 * math.pi**2))**(1/3)
+            st.write(f"Orbital Radius: {radius:.2f} meters")
+        except ValueError:
+            st.error("Please enter valid numeric values.")
+    if st.button("Back to Menu"):
+        main_menu()
+
+if __name__ == "__main__":
+    main_menu()
